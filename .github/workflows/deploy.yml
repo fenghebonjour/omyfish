@@ -7,14 +7,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Skip silently if HF_TOKEN secret is not configured yet
-    if: ${{ secrets.HF_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      - name: Check token
+        id: check
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "HF_TOKEN secret not set — skipping deploy."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Push to HuggingFace Spaces
+        if: steps.check.outputs.skip != 'true'
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
