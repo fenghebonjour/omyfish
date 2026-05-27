@@ -3,9 +3,7 @@ title: OMyFish
 emoji: 🐟
 colorFrom: blue
 colorTo: cyan
-sdk: streamlit
-sdk_version: "1.28.0"
-app_file: app/main.py
+sdk: docker
 pinned: false
 license: mit
 ---
@@ -56,7 +54,7 @@ All hyperparameters live in `configs/config.yaml`. The model switches to fine-tu
 
 ## Deploy to HuggingFace Spaces
 
-1. Create a Space at [huggingface.co/new-space](https://huggingface.co/new-space) — **SDK: Streamlit**, name: `omyfish`
+1. Create a Space at [huggingface.co/new-space](https://huggingface.co/new-space) — **SDK: Docker**, name: `omyfish`
 2. Generate a token at [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) (role: **write**)
 3. Add it as a GitHub secret named `HF_TOKEN` in your repo settings
 4. Push to `main` — the deploy workflow handles the rest
