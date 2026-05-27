@@ -9,8 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Check token
         id: check
@@ -22,10 +20,32 @@ jobs:
             echo "skip=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Push to HuggingFace Spaces
+      - uses: actions/setup-python@v5
+        if: steps.check.outputs.skip != 'true'
+        with:
+          python-version: "3.11"
+
+      - name: Upload to HuggingFace Spaces
         if: steps.check.outputs.skip != 'true'
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git remote add space https://fenghebonjour:${HF_TOKEN}@huggingface.co/spaces/fenghebonjour/omyfish
-          git push space HEAD:main --force
+          pip install huggingface_hub
+          python - <<'EOF'
+          import os
+          from huggingface_hub import HfApi
+
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          api.upload_folder(
+              folder_path=".",
+              repo_id="fenghebonjour/omyfish",
+              repo_type="space",
+              ignore_patterns=[
+                  ".git/**", ".github/**",
+                  "data/raw/**", "checkpoints/**", "outputs/**",
+                  "logs/**", "wandb/**", "notebooks/**",
+                  "**/__pycache__/**", "**/*.pyc",
+              ],
+          )
+          print("Deploy complete")
+          EOF
