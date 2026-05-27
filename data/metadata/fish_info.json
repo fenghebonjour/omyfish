@@ -1,0 +1,302 @@
+[
+  {
+    "species": "clownfish",
+    "scientific_name": "Amphiprioninae",
+    "habitat": "Coral reefs — Indian and Pacific Oceans",
+    "diet": "Omnivore — algae, zooplankton, small invertebrates",
+    "max_size_cm": 11,
+    "conservation_status": "Least Concern",
+    "description": "Small, vibrantly colored fish famous for their mutualistic relationship with sea anemones, which provides shelter in exchange for the fish's waste as fertilizer.",
+    "fun_fact": "All clownfish are born male; the dominant individual in a group can change sex to become female."
+  },
+  {
+    "species": "atlantic_bluefin_tuna",
+    "scientific_name": "Thunnus thynnus",
+    "habitat": "Open ocean — North Atlantic and Mediterranean",
+    "diet": "Carnivore — fish, squid, crustaceans",
+    "max_size_cm": 300,
+    "conservation_status": "Endangered",
+    "description": "One of the largest bony fish on Earth and a powerful apex predator. Critically overfished for sushi markets, a single fish can sell for hundreds of thousands of dollars.",
+    "fun_fact": "Bluefin tuna can regulate their body temperature above surrounding water, making them partially endothermic — rare among fish."
+  },
+  {
+    "species": "atlantic_salmon",
+    "scientific_name": "Salmo salar",
+    "habitat": "Cold rivers and northern Atlantic Ocean",
+    "diet": "Carnivore — insects, small fish, crustaceans",
+    "max_size_cm": 150,
+    "conservation_status": "Least Concern",
+    "description": "Anadromous fish born in freshwater rivers that migrate to the ocean for feeding, then return to their birth river to spawn — often leaping waterfalls along the way.",
+    "fun_fact": "Salmon can leap up to 3.65 m (12 ft) to clear waterfalls during their spawning migration."
+  },
+  {
+    "species": "atlantic_cod",
+    "scientific_name": "Gadus morhua",
+    "habitat": "Cold, deep waters of the North Atlantic",
+    "diet": "Carnivore — shrimp, squid, small fish",
+    "max_size_cm": 200,
+    "conservation_status": "Vulnerable",
+    "description": "Historically one of the most economically important fish in the world; the collapse of Grand Banks cod stocks in the 1990s is a landmark case study in overfishing.",
+    "fun_fact": "Cod are cannibalistic and will eat smaller members of their own species."
+  },
+  {
+    "species": "swordfish",
+    "scientific_name": "Xiphias gladius",
+    "habitat": "Tropical and temperate oceans worldwide",
+    "diet": "Carnivore — fish, squid, crustaceans",
+    "max_size_cm": 455,
+    "conservation_status": "Least Concern",
+    "description": "A large, highly migratory predatory fish distinguished by its elongated flat bill (rostrum), which it uses to slash through schools of prey.",
+    "fun_fact": "Swordfish have a special organ that heats their brain and eyes, dramatically improving vision in cold deep water."
+  },
+  {
+    "species": "mahi_mahi",
+    "scientific_name": "Coryphaena hippurus",
+    "habitat": "Warm tropical and subtropical ocean surface waters",
+    "diet": "Carnivore — flying fish, squid, small pelagic fish",
+    "max_size_cm": 210,
+    "conservation_status": "Least Concern",
+    "description": "Brilliantly colored surface-dwelling fish with iridescent blue, green, and golden-yellow hues. Also called dolphinfish (unrelated to dolphins).",
+    "fun_fact": "Mahi-mahi are among the fastest-growing fish; they reach sexual maturity in as little as 4–5 months."
+  },
+  {
+    "species": "lionfish",
+    "scientific_name": "Pterois volitans",
+    "habitat": "Coral reefs — Indo-Pacific; invasive in Atlantic and Caribbean",
+    "diet": "Carnivore — small fish, shrimp, crabs",
+    "max_size_cm": 47,
+    "conservation_status": "Least Concern",
+    "description": "Venomous reef fish with striking red, white, and brown striped pattern and elongated defensive spines. A highly destructive invasive species in the Atlantic.",
+    "fun_fact": "Invasive Atlantic lionfish have no natural predators in that region, and a single female can release up to 2 million eggs per year."
+  },
+  {
+    "species": "pufferfish",
+    "scientific_name": "Tetraodontidae",
+    "habitat": "Tropical and subtropical oceans, brackish and freshwater",
+    "diet": "Omnivore — algae, invertebrates, shellfish",
+    "max_size_cm": 90,
+    "conservation_status": "Least Concern",
+    "description": "Slow-moving fish that rapidly inflates its body into a spiky ball when threatened. Can consume hard-shelled prey with their beak-like fused teeth.",
+    "fun_fact": "Pufferfish contain tetrodotoxin, 1,200 times more poisonous than cyanide, yet they are a prized delicacy (fugu) in Japan."
+  },
+  {
+    "species": "rainbow_trout",
+    "scientific_name": "Oncorhynchus mykiss",
+    "habitat": "Cold, clear streams and rivers; introduced worldwide",
+    "diet": "Carnivore — insects, worms, small fish, crustaceans",
+    "max_size_cm": 120,
+    "conservation_status": "Least Concern",
+    "description": "One of the most popular sport and aquaculture fish, recognizable by its distinctive pink-to-red lateral stripe and black spotting.",
+    "fun_fact": "The sea-run form of rainbow trout is called a steelhead and grows significantly larger than its landlocked counterpart."
+  },
+  {
+    "species": "largemouth_bass",
+    "scientific_name": "Micropterus salmoides",
+    "habitat": "Lakes, ponds, rivers of eastern North America; introduced worldwide",
+    "diet": "Carnivore — crayfish, frogs, fish, insects",
+    "max_size_cm": 97,
+    "conservation_status": "Least Concern",
+    "description": "The most popular freshwater game fish in North America, known for aggressive surface strikes and acrobatic fights when hooked.",
+    "fun_fact": "Largemouth bass can detect prey using both vision and their lateral line, which senses pressure changes in the water."
+  },
+  {
+    "species": "northern_pike",
+    "scientific_name": "Esox lucius",
+    "habitat": "Lakes and slow rivers of North America and Eurasia",
+    "diet": "Carnivore — fish, frogs, waterfowl, small mammals",
+    "max_size_cm": 150,
+    "conservation_status": "Least Concern",
+    "description": "An ambush predator with a torpedo-shaped body, elongated jaws packed with sharp teeth, and superb camouflage among aquatic vegetation.",
+    "fun_fact": "Pike have been documented attacking and eating ducklings, voles, and even small muskrats."
+  },
+  {
+    "species": "common_carp",
+    "scientific_name": "Cyprinus carpio",
+    "habitat": "Freshwater lakes and rivers worldwide; heavily introduced",
+    "diet": "Omnivore — plants, insects, worms, molluscs",
+    "max_size_cm": 120,
+    "conservation_status": "Vulnerable (native range)",
+    "description": "One of the most widely distributed freshwater fish on Earth. Disrupts aquatic ecosystems by uprooting vegetation while feeding.",
+    "fun_fact": "Carp communicate using sound, producing grunts and clicks by grinding their pharyngeal (throat) teeth."
+  },
+  {
+    "species": "channel_catfish",
+    "scientific_name": "Ictalurus punctatus",
+    "habitat": "Rivers, lakes, and reservoirs of North America",
+    "diet": "Omnivore — insects, crayfish, fish, plant material",
+    "max_size_cm": 132,
+    "conservation_status": "Least Concern",
+    "description": "The most numerous catfish in North America and a widely farmed food fish. Navigates murky water using chemical-sensing barbels around its mouth.",
+    "fun_fact": "A 15 cm catfish has over 250,000 taste buds distributed across its entire body surface."
+  },
+  {
+    "species": "european_perch",
+    "scientific_name": "Perca fluviatilis",
+    "habitat": "Lakes and rivers across Europe and northern Asia",
+    "diet": "Carnivore — invertebrates, small fish",
+    "max_size_cm": 60,
+    "conservation_status": "Least Concern",
+    "description": "A widespread freshwater fish with distinctive dark vertical stripes and reddish ventral fins. Highly adaptable and tolerant of a wide range of conditions.",
+    "fun_fact": "European perch hunt cooperatively in schools, herding prey fish into shallow water before striking."
+  },
+  {
+    "species": "atlantic_halibut",
+    "scientific_name": "Hippoglossus hippoglossus",
+    "habitat": "Cold, deep waters of the North Atlantic",
+    "diet": "Carnivore — fish, squid, crustaceans",
+    "max_size_cm": 470,
+    "conservation_status": "Endangered",
+    "description": "The largest flatfish in the world, capable of living over 50 years and weighing more than 300 kg.",
+    "fun_fact": "Halibut larvae are born swimming upright with one eye on each side; one eye migrates across the skull to the same side as they mature."
+  },
+  {
+    "species": "great_barracuda",
+    "scientific_name": "Sphyraena barracuda",
+    "habitat": "Tropical and subtropical coastal oceans worldwide",
+    "diet": "Carnivore — fish",
+    "max_size_cm": 200,
+    "conservation_status": "Least Concern",
+    "description": "An elongated, powerful predatory fish with a fearsome set of large, sharp teeth. Known for curiosity toward divers but rarely aggressive.",
+    "fun_fact": "Barracudas are attracted to shiny objects, which they mistake for the scales of fleeing prey fish."
+  },
+  {
+    "species": "goliath_grouper",
+    "scientific_name": "Epinephelus itajara",
+    "habitat": "Shallow tropical waters — mangroves and coral reefs",
+    "diet": "Carnivore — fish, crustaceans, octopus",
+    "max_size_cm": 250,
+    "conservation_status": "Vulnerable",
+    "description": "The largest Atlantic grouper. Once hunted to critically low levels, it has partially recovered since gaining legal protection in the US.",
+    "fun_fact": "Goliath grouper produce loud booming sounds during spawning aggregations, audible to divers from significant distances."
+  },
+  {
+    "species": "queen_angelfish",
+    "scientific_name": "Holacanthus ciliaris",
+    "habitat": "Coral reefs of the tropical Atlantic",
+    "diet": "Omnivore — sponges, algae, jellyfish, small invertebrates",
+    "max_size_cm": 45,
+    "conservation_status": "Least Concern",
+    "description": "One of the most visually striking reef fish, with a vibrant blue-and-yellow body and a distinctive iridescent blue 'crown' spot on the head.",
+    "fun_fact": "Juvenile queen angelfish look completely different from adults, sporting blue stripes that mimic cleaner wrasse fish to gain access to other fish."
+  },
+  {
+    "species": "red_snapper",
+    "scientific_name": "Lutjanus campechanus",
+    "habitat": "Western Atlantic and Gulf of Mexico around reef structures",
+    "diet": "Carnivore — fish, shrimp, cephalopods",
+    "max_size_cm": 100,
+    "conservation_status": "Vulnerable",
+    "description": "A popular sport and food fish with a distinctive red body and yellow-orange eyes. Lives in social groups around hard-bottom reefs and platforms.",
+    "fun_fact": "Red snapper are long-lived; the oldest verified individual was 57 years old."
+  },
+  {
+    "species": "yellowfin_tuna",
+    "scientific_name": "Thunnus albacares",
+    "habitat": "Tropical and subtropical oceans worldwide",
+    "diet": "Carnivore — fish, squid, crustaceans",
+    "max_size_cm": 239,
+    "conservation_status": "Near Threatened",
+    "description": "A fast, powerful open-ocean predator named for its bright yellow dorsal and anal fins, which lengthen dramatically with age.",
+    "fun_fact": "Yellowfin tuna can sustain cruising speeds of 50 km/h and reach burst speeds exceeding 70 km/h."
+  },
+  {
+    "species": "nile_tilapia",
+    "scientific_name": "Oreochromis niloticus",
+    "habitat": "Freshwater lakes, rivers, and ponds of Africa; farmed globally",
+    "diet": "Herbivore / Omnivore — algae, aquatic plants, plankton",
+    "max_size_cm": 60,
+    "conservation_status": "Least Concern",
+    "description": "One of the most important aquaculture species globally, farmed on every inhabited continent as a protein source.",
+    "fun_fact": "Nile tilapia are mouthbrooders — the female carries eggs and hatchlings inside her mouth for protection."
+  },
+  {
+    "species": "king_mackerel",
+    "scientific_name": "Scomberomorus cavalla",
+    "habitat": "Western Atlantic and Gulf of Mexico — coastal and offshore",
+    "diet": "Carnivore — fish, squid",
+    "max_size_cm": 184,
+    "conservation_status": "Least Concern",
+    "description": "A fast, migratory predator with a streamlined silver body and deeply forked tail. Popular in sport fishing and commercial harvest.",
+    "fun_fact": "King mackerel accumulate mercury through bioaccumulation; health advisories recommend limiting consumption for pregnant women."
+  },
+  {
+    "species": "piranha",
+    "scientific_name": "Pygocentrus nattereri",
+    "habitat": "Rivers and lakes of South America — Amazon and Orinoco basins",
+    "diet": "Carnivore — fish, insects, carrion",
+    "max_size_cm": 33,
+    "conservation_status": "Least Concern",
+    "description": "Freshwater fish with razor-sharp interlocking triangular teeth. Far less dangerous than popular culture suggests; mass feeding frenzies occur mainly on already dead or injured animals.",
+    "fun_fact": "Red-bellied piranhas produce clicking sounds underwater for communication and use barking sounds when distressed."
+  },
+  {
+    "species": "sockeye_salmon",
+    "scientific_name": "Oncorhynchus nerka",
+    "habitat": "North Pacific Ocean and rivers of Alaska, Canada, Russia",
+    "diet": "Carnivore — zooplankton, small crustaceans (krill)",
+    "max_size_cm": 84,
+    "conservation_status": "Least Concern",
+    "description": "Named for their dramatic transformation to vivid red with a green head during spawning. Their pink flesh from krill consumption makes them commercially prized.",
+    "fun_fact": "Sockeye salmon navigate thousands of miles using Earth's magnetic field and their sense of smell to locate their exact birth stream."
+  },
+  {
+    "species": "flying_fish",
+    "scientific_name": "Exocoetidae",
+    "habitat": "Tropical and subtropical ocean surface worldwide",
+    "diet": "Omnivore — plankton, small crustaceans",
+    "max_size_cm": 45,
+    "conservation_status": "Least Concern",
+    "description": "Remarkable fish capable of leaping out of the water and gliding above the surface using their large, wing-like pectoral fins to escape predators.",
+    "fun_fact": "Flying fish can glide over 200 m at speeds up to 70 km/h, staying airborne for up to 45 seconds."
+  },
+  {
+    "species": "seahorse",
+    "scientific_name": "Hippocampus",
+    "habitat": "Seagrass beds and coral reefs in tropical and temperate waters",
+    "diet": "Carnivore — small crustaceans and plankton",
+    "max_size_cm": 35,
+    "conservation_status": "Vulnerable",
+    "description": "Unique upright-swimming fish without scales. Uses a prehensile tail to anchor to vegetation and hunts by precise suction-feeding.",
+    "fun_fact": "Male seahorses carry and give birth to the young — the only known vertebrate species where the male is solely responsible for gestation."
+  },
+  {
+    "species": "moray_eel",
+    "scientific_name": "Muraenidae",
+    "habitat": "Tropical and temperate ocean reefs and crevices",
+    "diet": "Carnivore — fish, crustaceans, octopus",
+    "max_size_cm": 300,
+    "conservation_status": "Least Concern",
+    "description": "Long-bodied, scaleless fish that hides in reef crevices. Their constant mouth-opening, which looks threatening, is simply how they pump water over their gills.",
+    "fun_fact": "Morays have a second set of pharyngeal jaws in their throat that project forward to grab and pull prey inward — like the creature in Alien."
+  },
+  {
+    "species": "archerfish",
+    "scientific_name": "Toxotes jaculatrix",
+    "habitat": "Mangrove swamps and streams of Southeast Asia and Australia",
+    "diet": "Carnivore — insects, spiders, small lizards knocked from overhanging vegetation",
+    "max_size_cm": 40,
+    "conservation_status": "Least Concern",
+    "description": "Famous for shooting precisely aimed jets of water to knock insects off branches up to 3 m above the water surface.",
+    "fun_fact": "Archerfish compensate for light refraction at the water/air boundary, adjusting their aim to accurately hit targets from below."
+  },
+  {
+    "species": "betta",
+    "scientific_name": "Betta splendens",
+    "habitat": "Shallow rice paddies and slow streams of Southeast Asia",
+    "diet": "Carnivore — insects, larvae, small crustaceans",
+    "max_size_cm": 7,
+    "conservation_status": "Vulnerable",
+    "description": "Brightly colored freshwater fish with flowing fins, bred selectively for centuries. Males are highly territorial toward other males.",
+    "fun_fact": "Betta fish are labyrinth fish — they breathe atmospheric air directly from the surface using a special organ, in addition to their gills."
+  },
+  {
+    "species": "mudskipper",
+    "scientific_name": "Periophthalmodon schlosseri",
+    "habitat": "Mangrove mudflats of Africa and the Indo-Pacific",
+    "diet": "Carnivore — invertebrates, small crustaceans",
+    "max_size_cm": 27,
+    "conservation_status": "Least Concern",
+    "description": "Amphibious fish that spends the majority of its life on land, using modified pectoral fins as crutches to crawl, skip, and even climb mangrove roots.",
+    "fun_fact": "Mudskippers absorb oxygen through their moist skin while on land (cutaneous respiration) and can survive out of water for days."
+  }
+]

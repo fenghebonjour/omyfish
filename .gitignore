@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Data and model artifacts
+data/raw/
+data/kaggle_tmp/
+checkpoints/
+outputs/
+logs/
+wandb/
+
+# Jupyter
+.ipynb_checkpoints/
+notebooks/*.ipynb
+
+# System
+.DS_Store
+*.swp
