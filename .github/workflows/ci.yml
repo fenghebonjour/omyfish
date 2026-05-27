@@ -14,6 +14,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install lightweight deps
+        run: pip install pyyaml
+
       - name: Validate configs and metadata
         run: |
           python -c "import yaml; yaml.safe_load(open('configs/config.yaml')); print('config.yaml OK')"

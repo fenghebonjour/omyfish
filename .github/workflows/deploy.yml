@@ -7,6 +7,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # Skip silently if HF_TOKEN secret is not configured yet
+    if: ${{ secrets.HF_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
         with:
