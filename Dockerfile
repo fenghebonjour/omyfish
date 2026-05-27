@@ -15,7 +15,7 @@ COPY . .
 # HuggingFace Spaces requires apps to listen on port 7860
 EXPOSE 7860
 
-CMD ["streamlit", "run", "app/main.py", \
+CMD ["streamlit", "run", "streamlit_app.py", \
      "--server.port=7860", \
      "--server.address=0.0.0.0", \
      "--server.headless=true"]
