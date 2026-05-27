@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate configs and metadata
+        run: |
+          python -c "import yaml; yaml.safe_load(open('configs/config.yaml')); print('config.yaml OK')"
+          python -c "import json; data = json.load(open('data/metadata/fish_info.json')); print(f'fish_info.json OK — {len(data)} species')"
+
+      - name: Check syntax
+        run: |
+          python -m py_compile \
+            src/transforms.py src/dataset.py src/model.py \
+            src/train.py src/predict.py src/evaluate.py src/utils.py \
+            app/main.py app/api.py app/clip_predictor.py \
+            scripts/download_data.py
+          echo "All files compile OK"

@@ -1,10 +1,17 @@
+import os
 import sys
 from pathlib import Path
 
 import streamlit as st
 from PIL import Image
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Resolve repo root regardless of cwd (local dev or HuggingFace Spaces)
+REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT))
+os.chdir(REPO_ROOT)
+
+CHECKPOINT_PATH = REPO_ROOT / "checkpoints" / "best.pt"
+METADATA_PATH = str(REPO_ROOT / "data" / "metadata" / "fish_info.json")
 
 st.set_page_config(
     page_title="OMyFish — Fish Species Identifier",
@@ -13,14 +20,25 @@ st.set_page_config(
 )
 
 
-@st.cache_resource
+@st.cache_resource(show_spinner="Loading model...")
 def load_predictor():
-    from src.predict import FishPredictor
-    return FishPredictor("checkpoints/best.pt", "data/metadata/fish_info.json")
+    if CHECKPOINT_PATH.exists():
+        from src.predict import FishPredictor
+        return FishPredictor(str(CHECKPOINT_PATH), METADATA_PATH), "trained"
+    from app.clip_predictor import CLIPFishPredictor
+    return CLIPFishPredictor(METADATA_PATH), "clip"
 
 
 st.title("🐟 OMyFish")
 st.caption("Upload a fish photo and AI will identify the species.")
+
+predictor, mode = load_predictor()
+
+if mode == "clip":
+    st.info(
+        "Running in **zero-shot demo mode** using CLIP — no custom training needed. "
+        "Run `make train` with labeled data for a fine-tuned model."
+    )
 
 uploaded = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png", "webp"])
 
@@ -29,12 +47,7 @@ if uploaded:
     st.image(image, use_column_width=True)
 
     with st.spinner("Identifying..."):
-        try:
-            predictor = load_predictor()
-            result = predictor.predict(image, top_k=3)
-        except FileNotFoundError:
-            st.error("No trained model found at `checkpoints/best.pt`. Run `make train` first.")
-            st.stop()
+        result = predictor.predict(image, top_k=3)
 
     if result["uncertain"]:
         st.warning(result["message"])
