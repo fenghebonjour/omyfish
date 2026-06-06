@@ -19,14 +19,35 @@ jobs:
 
       - name: Validate configs and metadata
         run: |
-          python -c "import yaml; yaml.safe_load(open('configs/config.yaml')); print('config.yaml OK')"
+          python -c "import yaml; yaml.safe_load(open('configs/training.yaml')); print('training.yaml OK')"
           python -c "import json; data = json.load(open('data/metadata/fish_info.json')); print(f'fish_info.json OK — {len(data)} species')"
 
       - name: Check syntax
         run: |
           python -m py_compile \
-            src/transforms.py src/dataset.py src/model.py \
-            src/train.py src/predict.py src/evaluate.py src/utils.py \
-            app/main.py app/api.py app/clip_predictor.py \
-            scripts/download_data.py
+            services/fish_ai/training/transforms.py \
+            services/fish_ai/training/dataset.py \
+            services/fish_ai/model/classifier.py \
+            services/fish_ai/training/train.py \
+            services/fish_ai/predictors/efficientnet.py \
+            services/fish_ai/training/evaluate.py \
+            services/fish_ai/training/utils.py \
+            services/fish_ai/predictors/clip.py \
+            services/fish_ai/service.py \
+            services/gis_service/exif.py \
+            services/gis_service/service.py \
+            apps/omyfish_api/db/engine.py \
+            apps/omyfish_api/repositories/observation_repository.py \
+            apps/omyfish_api/repositories/species_repository.py \
+            apps/omyfish_api/dependencies.py \
+            apps/omyfish_api/routes/health.py \
+            apps/omyfish_api/routes/species.py \
+            apps/omyfish_api/routes/observations.py \
+            apps/omyfish_api/main.py \
+            apps/omyfish_web/main.py \
+            research/scripts/download_data.py \
+            shared/config.py \
+            shared/events.py \
+            shared/schemas/observation.py \
+            shared/schemas/prediction.py
           echo "All files compile OK"
