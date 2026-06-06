@@ -30,6 +30,60 @@ def load_predictor():
 
 predictor, mode = load_predictor()
 
+
+@st.fragment
+def save_observation_form(result, image):
+    from app.gis import extract_exif_gps
+    exif_coords = extract_exif_gps(image)
+
+    if exif_coords:
+        st.success(f"GPS found in image EXIF: {exif_coords[0]:.5f}, {exif_coords[1]:.5f}")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        lat = st.number_input("Latitude", value=float(exif_coords[0]) if exif_coords else 0.0, format="%.6f", step=0.0001)
+    with col2:
+        lon = st.number_input("Longitude", value=float(exif_coords[1]) if exif_coords else 0.0, format="%.6f", step=0.0001)
+
+    if st.button("Save Observation", type="primary"):
+        if lat == 0.0 and lon == 0.0 and not exif_coords:
+            st.warning("Enter a location before saving.")
+        else:
+            try:
+                from app.database import IS_POSTGIS, new_id, engine, init_db
+                from sqlalchemy import text
+                init_db()
+                top = result["predictions"][0]
+                meta = top.get("metadata") or {}
+                src = "exif" if exif_coords else "manual"
+                with engine.connect() as conn:
+                    if IS_POSTGIS:
+                        conn.execute(text("""
+                            INSERT INTO observations
+                              (species_name, scientific_name, confidence,
+                               latitude, longitude, geom, source)
+                            VALUES
+                              (:species, :sci, :conf, :lat, :lon,
+                               ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)::geography,
+                               :source)
+                        """), dict(species=top["species"], sci=meta.get("scientific_name"),
+                                   conf=top["confidence"], lat=lat, lon=lon, source=src))
+                    else:
+                        conn.execute(text("""
+                            INSERT INTO observations
+                              (id, species_name, scientific_name, confidence,
+                               latitude, longitude, source)
+                            VALUES
+                              (:id, :species, :sci, :conf, :lat, :lon, :source)
+                        """), dict(id=new_id(), species=top["species"],
+                                   sci=meta.get("scientific_name"),
+                                   conf=top["confidence"], lat=lat, lon=lon, source=src))
+                    conn.commit()
+                st.success(f"Observation saved — {top['species']} at ({lat:.4f}, {lon:.4f})")
+            except Exception as e:
+                st.error(f"Could not save: {e}")
+
+
 st.title("🐟 OMyFish")
 
 tab_identify, tab_map = st.tabs(["Identify", "Map"])
@@ -92,56 +146,7 @@ with tab_identify:
         # ── Save observation ──────────────────────────────────────────────────
         st.divider()
         st.subheader("📍 Save Observation")
-
-        from app.gis import extract_exif_gps
-        exif_coords = extract_exif_gps(image)
-
-        if exif_coords:
-            st.success(f"GPS found in image EXIF: {exif_coords[0]:.5f}, {exif_coords[1]:.5f}")
-
-        col1, col2 = st.columns(2)
-        with col1:
-            lat = st.number_input("Latitude", value=float(exif_coords[0]) if exif_coords else 0.0, format="%.6f", step=0.0001)
-        with col2:
-            lon = st.number_input("Longitude", value=float(exif_coords[1]) if exif_coords else 0.0, format="%.6f", step=0.0001)
-
-        if st.button("Save Observation", type="primary"):
-            if lat == 0.0 and lon == 0.0 and not exif_coords:
-                st.warning("Enter a location before saving.")
-            else:
-                try:
-                    from app.database import IS_POSTGIS, new_id, engine, init_db
-                    from sqlalchemy import text
-                    init_db()
-                    top = result["predictions"][0]
-                    meta = top.get("metadata") or {}
-                    src = "exif" if exif_coords else "manual"
-                    with engine.connect() as conn:
-                        if IS_POSTGIS:
-                            conn.execute(text("""
-                                INSERT INTO observations
-                                  (species_name, scientific_name, confidence,
-                                   latitude, longitude, geom, source)
-                                VALUES
-                                  (:species, :sci, :conf, :lat, :lon,
-                                   ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)::geography,
-                                   :source)
-                            """), dict(species=top["species"], sci=meta.get("scientific_name"),
-                                       conf=top["confidence"], lat=lat, lon=lon, source=src))
-                        else:
-                            conn.execute(text("""
-                                INSERT INTO observations
-                                  (id, species_name, scientific_name, confidence,
-                                   latitude, longitude, source)
-                                VALUES
-                                  (:id, :species, :sci, :conf, :lat, :lon, :source)
-                            """), dict(id=new_id(), species=top["species"],
-                                       sci=meta.get("scientific_name"),
-                                       conf=top["confidence"], lat=lat, lon=lon, source=src))
-                        conn.commit()
-                    st.success(f"Observation saved — {top['species']} at ({lat:.4f}, {lon:.4f})")
-                except Exception as e:
-                    st.error(f"Could not save: {e}")
+        save_observation_form(result, image)
 
 # ── Map tab ───────────────────────────────────────────────────────────────────
 
