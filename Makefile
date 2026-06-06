@@ -1,4 +1,4 @@
-.PHONY: install train eval app api predict clean
+.PHONY: install train eval app api predict clean db compose-up compose-down
 
 install:
 	pip install -r requirements.txt
@@ -17,6 +17,15 @@ api:
 
 predict:
 	python -m src.predict --image $(IMAGE)
+
+db:
+	docker compose up db -d
+
+compose-up:
+	docker compose up --build -d
+
+compose-down:
+	docker compose down
 
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} +
