@@ -2,7 +2,6 @@ import os
 import sys
 from pathlib import Path
 
-# One level up from app/ is the repo root
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 os.chdir(REPO_ROOT)
@@ -111,32 +110,38 @@ with tab_identify:
                 st.warning("Enter a location before saving.")
             else:
                 try:
-                    from app.database import engine
+                    from app.database import IS_POSTGIS, new_id, engine, init_db
                     from sqlalchemy import text
+                    init_db()
                     top = result["predictions"][0]
                     meta = top.get("metadata") or {}
+                    src = "exif" if exif_coords else "manual"
                     with engine.connect() as conn:
-                        conn.execute(
-                            text("""
+                        if IS_POSTGIS:
+                            conn.execute(text("""
                                 INSERT INTO observations
-                                  (species_name, scientific_name, confidence, geom, source)
+                                  (species_name, scientific_name, confidence,
+                                   latitude, longitude, geom, source)
                                 VALUES
-                                  (:species, :sci, :conf,
+                                  (:species, :sci, :conf, :lat, :lon,
                                    ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)::geography,
                                    :source)
-                            """),
-                            dict(
-                                species=top["species"],
-                                sci=meta.get("scientific_name"),
-                                conf=top["confidence"],
-                                lat=lat, lon=lon,
-                                source="exif" if exif_coords else "manual",
-                            ),
-                        )
+                            """), dict(species=top["species"], sci=meta.get("scientific_name"),
+                                       conf=top["confidence"], lat=lat, lon=lon, source=src))
+                        else:
+                            conn.execute(text("""
+                                INSERT INTO observations
+                                  (id, species_name, scientific_name, confidence,
+                                   latitude, longitude, source)
+                                VALUES
+                                  (:id, :species, :sci, :conf, :lat, :lon, :source)
+                            """), dict(id=new_id(), species=top["species"],
+                                       sci=meta.get("scientific_name"),
+                                       conf=top["confidence"], lat=lat, lon=lon, source=src))
                         conn.commit()
                     st.success(f"Observation saved — {top['species']} at ({lat:.4f}, {lon:.4f})")
                 except Exception as e:
-                    st.error(f"Could not save: {e}\n\nStart PostGIS with `make db`.")
+                    st.error(f"Could not save: {e}")
 
 # ── Map tab ───────────────────────────────────────────────────────────────────
 
@@ -144,13 +149,14 @@ with tab_map:
     try:
         import folium
         from streamlit_folium import st_folium
-        from app.database import engine
+        from app.database import engine, init_db
         from sqlalchemy import text
 
+        init_db()
         with engine.connect() as conn:
             rows = conn.execute(text("""
                 SELECT species_name, scientific_name, confidence, timestamp,
-                       ST_Y(geom::geometry) AS lat, ST_X(geom::geometry) AS lon
+                       latitude, longitude
                 FROM observations
                 ORDER BY timestamp DESC
                 LIMIT 1000
@@ -159,14 +165,15 @@ with tab_map:
         m = folium.Map(location=[20, 0], zoom_start=2, tiles="CartoDB positron")
         for r in rows:
             sci = f"<br><i>{r.scientific_name}</i>" if r.scientific_name else ""
-            ts = r.timestamp.strftime("%Y-%m-%d %H:%M") if r.timestamp else ""
+            ts = r.timestamp
+            ts_str = ts.strftime("%Y-%m-%d %H:%M") if hasattr(ts, "strftime") else str(ts or "")[:16]
             popup_html = (
                 f"<b>{r.species_name}</b>{sci}<br>"
                 f"{r.confidence * 100:.1f}% confidence<br>"
-                f"{ts}"
+                f"{ts_str}"
             )
             folium.Marker(
-                location=[r.lat, r.lon],
+                location=[r.latitude, r.longitude],
                 popup=folium.Popup(popup_html, max_width=220),
                 tooltip=r.species_name,
                 icon=folium.Icon(color="blue", icon="info-sign"),
@@ -177,8 +184,5 @@ with tab_map:
 
     except ImportError:
         st.info("Install `folium` and `streamlit-folium` to enable the map view.")
-    except Exception:
-        st.info(
-            "Map unavailable — PostGIS is not running.\n\n"
-            "Start it with `make db` or `docker compose up db -d`."
-        )
+    except Exception as e:
+        st.error(f"Map error: {e}")

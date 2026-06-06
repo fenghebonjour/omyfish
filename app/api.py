@@ -127,9 +127,7 @@ def list_observations(limit: int = 100):
         rows = db.execute(
             text("""
                 SELECT id, species_name, scientific_name, confidence,
-                       timestamp, image_url, user_id, source,
-                       ST_Y(geom::geometry) AS latitude,
-                       ST_X(geom::geometry) AS longitude
+                       timestamp, latitude, longitude, image_url, user_id, source
                 FROM observations ORDER BY timestamp DESC LIMIT :limit
             """),
             {"limit": limit},
@@ -145,9 +143,7 @@ def observations_geojson(limit: int = 1000):
         rows = db.execute(
             text("""
                 SELECT id, species_name, scientific_name, confidence,
-                       timestamp, image_url, user_id, source,
-                       ST_Y(geom::geometry) AS latitude,
-                       ST_X(geom::geometry) AS longitude
+                       timestamp, latitude, longitude, image_url, user_id, source
                 FROM observations ORDER BY timestamp DESC LIMIT :limit
             """),
             {"limit": limit},
@@ -165,33 +161,50 @@ def observations_geojson(limit: int = 1000):
     return {"type": "FeatureCollection", "features": features}
 
 
-# ── helpers ──────────────────────────────────────────────────────────────────
+# ── helpers ───────────────────────────────────────────────────────────────────
 
 def _insert_observation(species_name, scientific_name, confidence, lat, lon,
                         user_id=None, source="upload", image_url=None):
-    from app.database import get_db
+    from app.database import IS_POSTGIS, new_id, get_db
     _ensure_db()
     with get_db() as db:
-        row = db.execute(
-            text("""
-                INSERT INTO observations
-                  (species_name, scientific_name, confidence, geom, user_id, source, image_url)
-                VALUES
-                  (:species, :sci, :conf,
-                   ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)::geography,
-                   :uid, :source, :img)
-                RETURNING id
-            """),
-            dict(species=species_name, sci=scientific_name, conf=confidence,
-                 lat=lat, lon=lon, uid=user_id, source=source, img=image_url),
-        ).fetchone()
-    return str(row[0])
+        if IS_POSTGIS:
+            row = db.execute(
+                text("""
+                    INSERT INTO observations
+                      (species_name, scientific_name, confidence,
+                       latitude, longitude, geom, user_id, source, image_url)
+                    VALUES
+                      (:species, :sci, :conf, :lat, :lon,
+                       ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)::geography,
+                       :uid, :source, :img)
+                    RETURNING id
+                """),
+                dict(species=species_name, sci=scientific_name, conf=confidence,
+                     lat=lat, lon=lon, uid=user_id, source=source, img=image_url),
+            ).fetchone()
+            return str(row[0])
+        else:
+            obs_id = new_id()
+            db.execute(
+                text("""
+                    INSERT INTO observations
+                      (id, species_name, scientific_name, confidence,
+                       latitude, longitude, user_id, source, image_url)
+                    VALUES
+                      (:id, :species, :sci, :conf, :lat, :lon, :uid, :source, :img)
+                """),
+                dict(id=obs_id, species=species_name, sci=scientific_name, conf=confidence,
+                     lat=lat, lon=lon, uid=user_id, source=source, img=image_url),
+            )
+            return obs_id
 
 
 def _row_to_dict(row):
     d = dict(row._mapping)
-    if d.get("timestamp"):
-        d["timestamp"] = d["timestamp"].isoformat()
+    ts = d.get("timestamp")
+    if ts and hasattr(ts, "isoformat"):
+        d["timestamp"] = ts.isoformat()
     if d.get("id"):
         d["id"] = str(d["id"])
     return d
