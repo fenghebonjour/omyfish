@@ -6,12 +6,13 @@ Welcome to the omyfish project! This guide will help you understand the codebase
 
 ## 🎯 What is omyfish?
 
-**TL;DR:** A fish species classifier that uses deep learning to identify fish from photos. Upload an image → get predictions with confidence scores.
+**TL;DR:** A field companion for anglers and naturalists. Photograph a fish → AI identifies the species → log the sighting with GPS → view all observations on a world map.
 
-**The system has three main parts:**
-1. **AI Brain** — A trained neural network that recognizes fish (in `services/fish_ai/`)
-2. **Training Engine** — Code that teaches the brain from examples (in `services/fish_ai/training/`)
-3. **User Interfaces** — Ways to use it (web app + REST API in `apps/`)
+**The system has four main parts:**
+1. **AI Identifier** — A trained neural network that recognizes fish species and returns ecological details (in `services/fish_ai/`)
+2. **Training Engine** — Code that teaches the model from your own labeled photos (in `services/fish_ai/training/`)
+3. **Observation Logger** — Saves where and when you saw each fish, with GPS from EXIF or manual entry (in `apps/omyfish_api/`)
+4. **User Interfaces** — A Streamlit web app for field use and a FastAPI REST API for integration (in `apps/`)
 
 ---
 
@@ -270,11 +271,11 @@ A: [requirements.txt](requirements.txt)
 
 ## 🎓 Key Takeaways
 
-1. **The flow is simple:** Data → Train → Model → Predict → User sees result
+1. **The flow is:** Photo → AI identifies species → log sighting with GPS → view on map
 2. **Everything is modular:** Each service/app is independent
 3. **Configuration is centralized:** Most settings are in `configs/training.yaml`
-4. **Two interfaces to choose from:** Web UI for users, REST API for developers
-5. **It's just PyTorch + FastAPI + Streamlit** — standard tools, clean code
+4. **Two interfaces:** Web UI for field use, REST API (with GeoJSON export) for integration
+5. **Works out of the box:** CLIP zero-shot mode requires no training data; swap in a fine-tuned checkpoint for higher accuracy
 
 ---
 
