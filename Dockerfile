@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Install system deps needed by OpenCV headless and albumentations
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libglib2.0-0 libsm6 libxrender1 libxext6 \
+    libglib2.0-0 libsm6 libxrender1 libxext6 libgl1 \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
