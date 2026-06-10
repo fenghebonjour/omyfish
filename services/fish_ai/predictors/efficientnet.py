@@ -74,7 +74,7 @@ class FishPredictor(BaseFishPredictor):
             self.model, dummy, output_path,
             input_names=["image"], output_names=["logits"],
             dynamic_axes={"image": {0: "batch"}, "logits": {0: "batch"}},
-            opset_version=17,
+            opset_version=18,
         )
         print(f"ONNX model exported → {output_path}")
 
