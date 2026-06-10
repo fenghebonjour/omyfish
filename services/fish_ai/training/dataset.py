@@ -84,12 +84,13 @@ def build_dataloaders(config: dict) -> Tuple[DataLoader, DataLoader, List[str]]:
     val_ratio = 1.0 - config["data"]["train_split"]
     bs = config["training"]["batch_size"]
     nw = config["data"]["num_workers"]
+    persistent = config["data"].get("persistent_workers", False) and nw > 0
 
     train_ds = FishDataset(config["data"]["data_dir"], get_train_transforms(img_size), "train", val_ratio)
     val_ds = FishDataset(config["data"]["data_dir"], get_val_transforms(img_size), "val", val_ratio)
 
     sampler = WeightedRandomSampler(train_ds.sample_weights(), len(train_ds))
-    train_loader = DataLoader(train_ds, batch_size=bs, sampler=sampler, num_workers=nw, pin_memory=True)
-    val_loader = DataLoader(val_ds, batch_size=bs, shuffle=False, num_workers=nw, pin_memory=True)
+    train_loader = DataLoader(train_ds, batch_size=bs, sampler=sampler, num_workers=nw, pin_memory=True, persistent_workers=persistent)
+    val_loader = DataLoader(val_ds, batch_size=bs, shuffle=False, num_workers=nw, pin_memory=True, persistent_workers=persistent)
 
     return train_loader, val_loader, train_ds.classes

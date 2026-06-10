@@ -328,5 +328,65 @@
     "conservation_status": "Least Concern",
     "description": "Prized as one of the hardest-fighting freshwater sport fish pound-for-pound. Prefers cooler, clearer water than its largemouth cousin and is distinguished by vertical bronze-green bars along its sides.",
     "fun_fact": "Smallmouth bass are devoted fathers — males fan and guard the nest, then herd the school of fry for up to a month after hatching, protecting them from predators."
+  },
+  {
+    "species": "crappie",
+    "scientific_name": "Pomoxis spp. (Black Crappie P. nigromaculatus / White Crappie P. annularis)",
+    "habitat": "Lakes, ponds, and slow rivers across North America",
+    "diet": "Carnivore — insects, small fish, zooplankton",
+    "max_size_cm": 53,
+    "conservation_status": "Least Concern",
+    "description": "Popular panfish prized by ice anglers and light-tackle enthusiasts. Black crappie prefers clear water and has irregular black spotting; white crappie tolerates turbid conditions and shows distinct vertical bars.",
+    "fun_fact": "Crappie school tightly around submerged structure. On sonar they appear as a dense cloud — anglers call this a crappie 'ball.'"
+  },
+  {
+    "species": "yellow_perch",
+    "scientific_name": "Perca flavescens",
+    "habitat": "Lakes and slow rivers of northern North America and the Great Lakes region",
+    "diet": "Carnivore — insects, small fish, crayfish, zooplankton",
+    "max_size_cm": 50,
+    "conservation_status": "Least Concern",
+    "description": "One of the most sought-after table fish in North America, especially for ice fishing. Recognized by its golden-yellow body with 6–8 dark vertical bars and orange-tinted lower fins.",
+    "fun_fact": "Yellow perch spawn in spring by draping long gelatinous egg ribbons over submerged vegetation — a single female can produce up to 40,000 eggs in one string."
+  },
+  {
+    "species": "lake_sturgeon",
+    "scientific_name": "Acipenser fulvescens",
+    "habitat": "Large lakes and rivers of North America — Great Lakes, Hudson Bay, Mississippi basin",
+    "diet": "Bottom feeder — invertebrates, crayfish, small fish, plant material",
+    "max_size_cm": 274,
+    "conservation_status": "Vulnerable",
+    "description": "A living fossil virtually unchanged for 135 million years, with rows of bony scutes instead of scales and a toothless protrusible mouth for vacuuming the bottom. Can live over 150 years and weigh more than 180 kg.",
+    "fun_fact": "Lake sturgeon grow so slowly that a 6 ft fish may be 80–100 years old. They were once so abundant in the Great Lakes that steamboats burned dried sturgeon as fuel."
+  },
+  {
+    "species": "brook_trout",
+    "scientific_name": "Salvelinus fontinalis",
+    "habitat": "Cold, clear streams, rivers, and lakes of northeastern North America",
+    "diet": "Carnivore — insects, worms, small fish, crustaceans",
+    "max_size_cm": 86,
+    "conservation_status": "Least Concern",
+    "description": "Quebec's most iconic native trout, the omble de fontaine is prized for its vivid red spots ringed with blue halos and brilliant orange belly fins. A symbol of pristine cold-water wilderness.",
+    "fun_fact": "The brook trout is Quebec's official fish emblem and a keystone indicator of healthy cold-water ecosystems."
+  },
+  {
+    "species": "lake_trout",
+    "scientific_name": "Salvelinus namaycush",
+    "habitat": "Deep, cold, well-oxygenated lakes of northern North America",
+    "diet": "Carnivore — fish, crustaceans, insects",
+    "max_size_cm": 120,
+    "conservation_status": "Least Concern",
+    "description": "The largest of the chars, the touladi inhabits Quebec's deepest lakes year-round. Prized trophy fish with a grey-green body covered in pale spots and a deeply forked tail.",
+    "fun_fact": "Lake trout can live over 60 years and descend to depths of 200 metres in summer to find cold water."
+  },
+  {
+    "species": "muskellunge",
+    "scientific_name": "Esox masquinongy",
+    "habitat": "Large lakes and slow rivers of the Great Lakes and St. Lawrence basin",
+    "diet": "Carnivore — fish, waterfowl, small mammals",
+    "max_size_cm": 180,
+    "conservation_status": "Least Concern",
+    "description": "The apex freshwater predator of Quebec waters. The maskinongé is the ultimate trophy for sport anglers — known as the fish of ten thousand casts.",
+    "fun_fact": "Muskellunge can strike prey up to one-third their own body length and are capable of explosive bursts exceeding 50 km/h."
   }
 ]

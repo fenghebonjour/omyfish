@@ -71,7 +71,7 @@ def _run_epoch(model, loader, criterion, device, optimizer=None, scaler=None):
     return total_loss / len(loader), correct / n, top5_sum / n
 
 
-def train(config_path: str = "configs/training.yaml"):
+def train(config_path: str = "configs/training.yaml", resume: str = None):
     with open(config_path) as f:
         config = yaml.safe_load(f)
 
@@ -105,8 +105,20 @@ def train(config_path: str = "configs/training.yaml"):
     (ckpt_dir / "classes.json").write_text(json.dumps(classes))
 
     best_acc = 0.0
+    start_epoch = 1
 
-    for epoch in range(1, config["training"]["epochs"] + 1):
+    if resume:
+        ckpt = torch.load(resume, map_location=device, weights_only=False)
+        model.load_state_dict(ckpt["model_state_dict"])
+        optimizer.load_state_dict(ckpt["optimizer_state_dict"])
+        scheduler.load_state_dict(ckpt["scheduler_state_dict"])
+        if scaler and ckpt.get("scaler_state_dict"):
+            scaler.load_state_dict(ckpt["scaler_state_dict"])
+        start_epoch = ckpt["epoch"] + 1
+        best_acc = ckpt["best_acc"]
+        print(f"Resumed from epoch {ckpt['epoch']} (best_acc={best_acc:.4f})")
+
+    for epoch in range(start_epoch, config["training"]["epochs"] + 1):
         t0 = time.time()
         tr_loss, tr_acc, _ = _run_epoch(model, train_loader, criterion, device, optimizer, scaler)
         vl_loss, vl_acc, vl_top5 = _run_epoch(model, val_loader, criterion, device)
@@ -131,6 +143,20 @@ def train(config_path: str = "configs/training.yaml"):
             )
             print(f"  ✓ saved best (val_acc={vl_acc:.4f})")
 
+        torch.save(
+            {
+                "epoch": epoch,
+                "model_state_dict": model.state_dict(),
+                "optimizer_state_dict": optimizer.state_dict(),
+                "scheduler_state_dict": scheduler.state_dict(),
+                "scaler_state_dict": scaler.state_dict() if scaler else None,
+                "best_acc": best_acc,
+                "config": config,
+                "val_acc": vl_acc,
+            },
+            ckpt_dir / "last.pt",
+        )
+
         if stopper(vl_loss):
             print(f"Early stopping at epoch {epoch}")
             break
@@ -145,5 +171,7 @@ def train(config_path: str = "configs/training.yaml"):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="configs/training.yaml")
+    parser.add_argument("--resume", nargs="?", const="checkpoints/last.pt", default=None,
+                        help="Resume from checkpoint (default: checkpoints/last.pt)")
     args = parser.parse_args()
-    train(args.config)
+    train(args.config, resume=args.resume)
