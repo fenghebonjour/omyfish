@@ -71,15 +71,6 @@ def save_observation_form(result, image):
                 st.error(f"Could not save: {e}")
 
 
-st.markdown("""<style>
-/* Reserve scrollbar gutter permanently so content width never shifts by 10px.
-   scrollbar-gutter:stable only fires on elements with overflow:auto/scroll,
-   so it is safe to apply broadly — non-scrolling elements are unaffected. */
-*, *::before, *::after { scrollbar-gutter: stable; }
-[data-testid="stAppViewContainer"],
-.appview-container { overflow-y: scroll !important; }
-</style>""", unsafe_allow_html=True)
-
 st.title("🐟 OMyFish")
 
 tab_identify, tab_map = st.tabs(["Identify", "Map"])
