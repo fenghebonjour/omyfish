@@ -8,6 +8,7 @@ os.chdir(ROOT)
 
 import streamlit as st
 from PIL import Image
+from shared.config import settings
 
 st.set_page_config(
     page_title="OMyFish — Fish Species Identifier",
@@ -20,15 +21,33 @@ st.set_page_config(
 # be first) and before any widget so it lands high in the delta stream.
 st.html('<style>html{overflow-y:scroll!important}</style>')
 
+_checkpoint_exists = Path(settings.checkpoint_path).exists()
+
 
 @st.cache_resource(show_spinner="Loading model...")
-def load_ai_service():
+def load_ai_service(model: str):
     from services.fish_ai.service import FishAIService
-    from shared.config import settings
-    return FishAIService.build(settings.checkpoint_path, settings.metadata_path)
+    if model == "efficientnet":
+        from services.fish_ai.predictors.efficientnet import FishPredictor
+        return FishAIService(FishPredictor(settings.checkpoint_path, settings.metadata_path), "trained")
+    from services.fish_ai.predictors.clip import CLIPFishPredictor
+    return FishAIService(CLIPFishPredictor(settings.metadata_path), "clip")
 
 
-ai_service = load_ai_service()
+if _checkpoint_exists:
+    with st.sidebar:
+        st.header("Model")
+        _model_choice = st.radio(
+            "Backend",
+            ["EfficientNet-B3", "CLIP (zero-shot)"],
+            index=0,
+            help="EfficientNet-B3 is the fine-tuned model (83.6% val accuracy). CLIP is zero-shot with no training.",
+        )
+    model_key = "efficientnet" if _model_choice == "EfficientNet-B3" else "clip"
+else:
+    model_key = "clip"
+
+ai_service = load_ai_service(model_key)
 
 
 @st.fragment
@@ -87,8 +106,8 @@ with tab_identify:
 
     if ai_service.mode == "clip":
         st.info(
-            "Running in **zero-shot demo mode** using CLIP — no custom training needed. "
-            "Run `make train` with labeled data for a fine-tuned model."
+            "Running in **zero-shot CLIP mode** — no custom training needed. "
+            + ("Switch to EfficientNet-B3 in the sidebar for the fine-tuned model." if _checkpoint_exists else "Run `make train` with labeled data for a fine-tuned model.")
         )
 
     uploaded = st.file_uploader("Choose an image", type=["jpg", "jpeg", "png", "webp"])
@@ -97,7 +116,7 @@ with tab_identify:
         image = Image.open(uploaded)
         st.image(image, use_container_width=True)
 
-        cache_key = f"result_{uploaded.name}_{uploaded.size}"
+        cache_key = f"result_{model_key}_{uploaded.name}_{uploaded.size}"
         if cache_key not in st.session_state:
             with st.spinner("Identifying..."):
                 st.session_state[cache_key] = ai_service.predict(image, top_k=3)
