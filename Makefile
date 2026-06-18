@@ -16,7 +16,7 @@ app:
 	streamlit run apps/omyfish_web/main.py
 
 api:
-	uvicorn apps.omyfish_api.main:app --reload --host 0.0.0.0 --port 8000
+	venv/bin/uvicorn apps.omyfish_api.main:app --reload --host 0.0.0.0 --port 8000
 
 predict:
 	python -m services.fish_ai.predictors.efficientnet --image $(IMAGE)
