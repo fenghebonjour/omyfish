@@ -23,6 +23,55 @@ st.html('<style>html{overflow-y:scroll!important}</style>')
 
 _checkpoint_exists = Path(settings.checkpoint_path).exists()
 
+# ── Token persistence ─────────────────────────────────────────────────────────
+# Tokens are stored in two places:
+# 1. st.query_params — survives page refresh (URL-based)
+# 2. .local_session file — survives server restarts on local dev
+#    (on HF Spaces the file is ephemeral, so users re-login after a Space restart)
+
+_SESSION_FILE = ROOT / ".local_session"
+
+
+def _save_session(token: str):
+    try:
+        _SESSION_FILE.write_text(token)
+    except Exception:
+        pass
+
+
+def _clear_session():
+    try:
+        _SESSION_FILE.unlink(missing_ok=True)
+    except Exception:
+        pass
+
+
+def _restore_from_token(token: str) -> bool:
+    from jose import JWTError, jwt
+    try:
+        payload = jwt.decode(token, settings.jwt_secret, algorithms=["HS256"])
+        from apps.omyfish_api.db.engine import ensure_db
+        from apps.omyfish_api.repositories.user_repository import UserRepository
+        ensure_db()
+        u = UserRepository().get_by_id(payload["sub"])
+        if u and u["is_active"]:
+            st.session_state["auth_user"] = {"id": u["id"], "email": u["email"], "role": u["role"]}
+            st.query_params["token"] = token
+            return True
+    except (JWTError, Exception):
+        pass
+    return False
+
+
+if "auth_user" not in st.session_state:
+    _token = st.query_params.get("token")
+    if not _token and _SESSION_FILE.exists():
+        _token = _SESSION_FILE.read_text().strip()
+    if _token:
+        if not _restore_from_token(_token):
+            st.query_params.pop("token", None)
+            _clear_session()
+
 # ── Auth helpers ──────────────────────────────────────────────────────────────
 
 def _auth_repo():
@@ -43,6 +92,8 @@ def _auth_sidebar():
         st.caption(f"Role: {user['role']}")
         if st.button("Log out", use_container_width=True):
             del st.session_state["auth_user"]
+            st.query_params.pop("token", None)
+            _clear_session()
             st.rerun()
         return
 
@@ -56,6 +107,10 @@ def _auth_sidebar():
             u = repo.get_by_email(email)
             if u and verify_password(password, u["hashed_password"]) and u["is_active"]:
                 st.session_state["auth_user"] = {"id": u["id"], "email": u["email"], "role": u["role"]}
+                from apps.omyfish_api.auth import create_access_token
+                _tok = create_access_token(u["id"], u["role"])
+                st.query_params["token"] = _tok
+                _save_session(_tok)
                 st.rerun()
             else:
                 st.error("Invalid credentials.")
@@ -72,6 +127,10 @@ def _auth_sidebar():
             else:
                 u = repo.create(new_email, hash_password(new_pw))
                 st.session_state["auth_user"] = {"id": u["id"], "email": u["email"], "role": u["role"]}
+                from apps.omyfish_api.auth import create_access_token
+                _tok = create_access_token(u["id"], u["role"])
+                st.query_params["token"] = _tok
+                _save_session(_tok)
                 st.rerun()
 
 

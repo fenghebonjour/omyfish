@@ -48,3 +48,4 @@ alembic>=1.13.0                      # Database migration framework (PostGIS pat
 piexif>=1.1.3                        # EXIF GPS extraction from uploaded images
 folium>=0.15.0                       # Leaflet-based map rendering
 streamlit-folium>=0.17.0             # Embed Folium maps in Streamlit
+python-dotenv>=1.0.0                 # Load .env file for local development
