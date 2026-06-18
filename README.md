@@ -16,6 +16,20 @@ An AI-powered field companion for anglers, naturalists, and citizen scientists. 
 
 ---
 
+## Project Family
+
+This repo is the **AI-first Python origin** of the OMyFish platform. Two enterprise re-architectures are being developed in parallel:
+
+| Repo | Stack | Architecture |
+|---|---|---|
+| **omyfish** (this) | Python 3.11 · PyTorch · FastAPI · Streamlit | Monolith → service-oriented |
+| [omyfish-dotnet](https://github.com/fenghebonjour/omyfish-dotnet) | .NET 10 · ASP.NET Core · EF Core · YARP | Clean Architecture + CQRS (MediatR) |
+| [omyfish-java](https://github.com/fenghebonjour/omyfish-java) | Java 21 · Spring Boot 3.x · Hibernate · Spring AMQP | Hexagonal Architecture + Event-Driven |
+
+All three share the same Python AI service (EfficientNet-B3 + CLIP) and the same PostgreSQL/PostGIS + RabbitMQ + MinIO infrastructure stack.
+
+---
+
 ## What it does
 
 ### Identify

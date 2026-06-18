@@ -1,6 +1,49 @@
 # OMyFish — Session Log
-**Date:** 2026-05-27  
 **Project:** `/home/bigblue/omyfish` | GitHub: `fenghebonjour/omyfish` | Live: `huggingface.co/spaces/fenghebonjour/omyfish`
+
+---
+
+## Session 2026-06-17 — Enterprise Architecture Expansion
+
+Created two enterprise re-architectures of OMyFish, each as a sibling repo:
+
+### omyfish-dotnet ([github.com/fenghebonjour/omyfish-dotnet](https://github.com/fenghebonjour/omyfish-dotnet))
+
+Full enterprise scaffold with:
+- **.NET 10** · ASP.NET Core Minimal APIs · Entity Framework Core · Npgsql
+- **YARP** reverse proxy as API gateway
+- **Clean Architecture** — Domain / Application / Infrastructure / API layers per service
+- **CQRS** via MediatR (`ICommand<T>` / `IQuery<T>` / pipeline behaviors)
+- **MassTransit + RabbitMQ** (Quorum Queues, DLQ, retry policies)
+- Services: ApiGateway, IdentityService, SpeciesService, ObservationService, NotificationService, AIService (Python reused)
+- Real C# domain models: `Species`, `Observation`, `Prediction`, `ConfidenceScore`, `GpsCoordinates`
+- SQL migrations (PostGIS DDL + spatial index + radius search helper function)
+- Helm chart, K8s HPA YAMLs, GitLab CI/CD pipeline
+- `ARCHITECTURE.md` with ASCII diagrams, DDD bounded contexts, scaling table (10→100K users), 6-phase migration roadmap
+
+### omyfish-java ([github.com/fenghebonjour/omyfish-java](https://github.com/fenghebonjour/omyfish-java))
+
+Full enterprise scaffold with:
+- **Java 21** · Spring Boot 3.x · Spring Data JPA · Hibernate Spatial · Spring AMQP
+- **Hexagonal Architecture** (Ports & Adapters) — `domain/port/in/`, `domain/port/out/`, `adapter/in/`, `adapter/out/`
+- **Event-Driven** via RabbitMQ + Spring AMQP (`@RabbitListener`, Quorum Queues)
+- **Maven multi-module** parent POM with shared-domain and shared-events modules
+- Services: api-gateway, identity-service, species-service, observation-service, notification-service, ai-service (Python reused)
+- Real Java domain models: `Species` (AggregateRoot), `Observation`, `ConfidenceScore`, `GpsCoordinates` (records)
+- Flyway SQL migrations (PostGIS DDL)
+- `ARCHITECTURE.md` with ASCII diagrams, Hexagonal Architecture per-service diagram, JVM tuning notes, scaling table
+
+### Shared decisions across both
+
+- Python AI service (`services/fish_ai/`) reused as independent HTTP microservice in both
+- Same infrastructure: PostgreSQL + PostGIS, RabbitMQ Quorum Queues, MinIO / S3, Prometheus + Grafana + Jaeger
+- Same frontend: Next.js 15 + TypeScript + MapLibre GL JS
+- Same CI/CD: GitLab CI/CD with staging + manual production deploy
+- Naming: `omyfish` (Python origin, unchanged) · `omyfish-dotnet` · `omyfish-java`
+
+---
+
+**Date:** 2026-05-27
 
 ---
 

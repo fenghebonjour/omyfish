@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Family
+
+This is the **Python AI-first origin** repo. Two enterprise versions live at:
+- `../omyfish-dotnet` — .NET 10 / Clean Architecture / CQRS
+- `../omyfish-java`   — Java 21 / Spring Boot / Hexagonal Architecture
+
+The Python AI service here (`services/fish_ai/`) is reused by both enterprise versions as an independent HTTP microservice.
+
 ## Commands
 
 ```bash
