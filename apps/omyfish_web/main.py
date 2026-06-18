@@ -24,7 +24,8 @@ st.html('<style>html{overflow-y:scroll!important}</style>')
 _checkpoint_exists = Path(settings.checkpoint_path).exists()
 
 # ── Token persistence ─────────────────────────────────────────────────────────
-# Token is stored in .local_session file (never in the URL).
+# Token stored in .local_session file — survives page refresh and server restarts.
+# More secure than browser cookies: not accessible to JS, not in browser storage.
 # On HF Spaces the file is ephemeral — users re-login after a Space restart.
 
 _SESSION_FILE = ROOT / ".local_session"
@@ -74,7 +75,6 @@ def _auth_repo():
     return UserRepository()
 
 
-@st.fragment
 def _auth_sidebar():
     from apps.omyfish_api.auth import hash_password, verify_password
 
